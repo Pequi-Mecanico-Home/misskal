@@ -47,10 +47,6 @@ def generate_launch_description():
         'is_sim',
         default_value=is_sim)
 
-    robot_description_content = ParameterValue(
-        Command(LaunchConfiguration('robot_description_command')),
-        value_type=str
-    )
 
     # Localization
     localization_group_action = GroupAction([
@@ -60,7 +56,7 @@ def generate_launch_description():
             executable='ekf_node',
             name='ekf_node',
             output='screen',
-            parameters=[config_jackal_ekf],
+            parameters=[config_jackal_ekf, {'use_sim_time': True if is_sim else False}],
         ),
 
         # Madgwick Filter
@@ -79,27 +75,28 @@ def generate_launch_description():
         Node(
             package='controller_manager',
             executable='ros2_control_node',
-            parameters=[{'robot_description': robot_description_content},
-                        config_jackal_velocity_controller],
+            parameters=[config_jackal_velocity_controller, {'use_sim_time': True if is_sim else False}],
             output={
                 'stdout': 'screen',
                 'stderr': 'screen',
             },
+            remappings=[
+            ("~/robot_description", "/robot_description")],
             condition=UnlessCondition(is_sim)
         ),
 
         # Joint State Broadcaster
         Node(
             package='controller_manager',
-            executable='spawner.py',
-            arguments=['joint_state_broadcaster'],
+            executable='spawner',
+            arguments=['joint_state_broadcaster',],
             output='screen',
         ),
 
         # Velocity Controller
         Node(
             package='controller_manager',
-            executable='spawner.py',
+            executable='spawner',
             arguments=['jackal_velocity_controller'],
             output='screen',
         )

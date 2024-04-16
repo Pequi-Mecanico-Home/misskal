@@ -1,29 +1,50 @@
 ekf_node:
   ros__parameters:
+    # map_frame: map             
     odom_frame: odom
     base_link_frame: base_link
     world_frame: odom
     publish_tf: true
     two_d_mode: true
+    sensor_timeout: 0.2
+    predict_to_current_time: true
 
     frequency: 50.0
 
-    # odom0: jackal_velocity_controller/odom
-    odom0: odom
-    odom0_config: [true, true, false,
-                  false, false, true,
-                  true, true, false,
-                  false, false, true,
-                  false, false, false]
+    odom0: jackal_velocity_controller/odom
+    # odom0: odom
+    odom0_config: [true, true, true,     # X,Y,Z,
+                  false, false, false,     # roll,pitch,yaw,
+                  true, true, false,      # X`,Y`,Z`
+                  false, false, true,     # roll`,pitch`,yaw`,
+                  false, false, false]    # X``,Y``,Z``
     odom0_differential: false
-    odom0_queue_size: 10
+    odom0_queue_size: 5
 
     imu0: imu/data
-    imu0_config: [false, false, false,
-                  false, false, false,
-                  false, false, false,
-                  false, false, true,
-                  true, false, false]
+    imu0_config: [false, false, false,    # X,Y,Z,
+                  false, false, false,    # roll,pitch,yaw,
+                  false, false, false,    # X`,Y`,Z`
+                  false, false, true,     # roll`,pitch`,yaw`,
+                  true, false, false]     # X``,Y``,Z``
     imu0_differential: false
-    imu0_queue_size: 10
+    imu0_queue_size: 5
     imu0_remove_gravitational_acceleration: true
+
+    #                            x    y    z        roll     pitch    yaw   vx     vy     vz        wx       wy       wz    ax    ay    az
+    process_noise_covariance: [0.01, 0.0,    0.0,       0.0,       0.0,       0.0,    0.0,     0.0,     0.0,        0.0,       0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.01, 0.0,       0.0,       0.0,       0.0,    0.0,     0.0,     0.0,        0.0,       0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    1.0e-4,  0.0,       0.0,       0.0,    0.0,     0.0,     0.0,        0.0,       0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       1.0e-4,  0.0,       0.0,    0.0,     0.0,     0.0,        0.0,       0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       1.0e-4,  0.0,    0.0,     0.0,     0.0,        0.0,       0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.2,  0.0,     0.0,     0.0,        0.0,       0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.0,    0.1,   0.0,     0.0,        0.0,       0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.0,    0.0,     0.01,  0.0,        0.0,       0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.0,    0.0,     0.0,     1.0e-4,   0.0,       0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.0,    0.0,     0.0,     0.0,        1.0e-4,  0.0,       0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.0,    0.0,     0.0,     0.0,        0.0,       1.0e-4,  0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.0,    0.0,     0.0,     0.0,        0.0,       0.0,       0.4,  0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.0,    0.0,     0.0,     0.0,        0.0,       0.0,       0.0,    1.0e-3, 0.0,    0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.0,    0.0,     0.0,     0.0,        0.0,       0.0,       0.0,    0.0,    1.0e-3, 0.0,
+                              0.0,    0.0,    0.0,       0.0,       0.0,       0.0,    0.0,     0.0,     0.0,        0.0,       0.0,       0.0,    0.0,    0.0,    1.0e-9]
+
