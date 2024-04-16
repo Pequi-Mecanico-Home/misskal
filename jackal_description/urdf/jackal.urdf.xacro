@@ -69,8 +69,6 @@
       <axis xyz="0 1 0" />
     </joint>
 
-    <!-- In reality, Jackal has only two motors, one per side. However, it's more
-         straightforward for Gazebo to simulate as if there's an actuator per wheel. -->
     <transmission name="${prefix}_wheel_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="${prefix}_wheel">
@@ -118,15 +116,13 @@
       </geometry>
     </collision>
     <inertial>
-      <!-- Center of mass -->
       <origin xyz="0.012  0.002 0.067" rpy="0 0 0"/>
       <mass value="16.523"/>
-      <!-- Moments of inertia: ( chassis without wheels ) -->
       <inertia
         ixx="0.3136" ixy="-0.0008" ixz="0.0164"
         iyy="0.3922" iyz="-0.0009"
         izz="0.4485"/>
-      </inertial>
+    </inertial>
   </link>
 
   <xacro:unless value="$(optenv JACKAL_FRONT_ACCESSORY_FENDER 0)">
@@ -199,10 +195,6 @@
     <child link="rear_fender_link" />
   </joint>
 
-  <!-- TODO: Make this internal_imu_link or something, and use a mixed-in xacro
-       to supply the joint between it and imu_link. This is important so that imu_link
-       always points to the "active" IMU. When an upgrade IMU is connected, the
-       internal_imu_link should remain, but imu_link should point to the upgrade one. -->
   <link name="imu_link">
     <inertial>
       <mass value="0.001"/>
@@ -215,7 +207,6 @@
     <child link="imu_link" />
   </joint>
 
-  <!-- TODO: Same note as applies to imu_link -->
   <link name="navsat_link">
     <visual>
       <geometry>
@@ -252,7 +243,6 @@
     <origin xyz="${mount_spacing} 0 0" />
   </joint>
 
-  <!-- ROS2 controls -->
   <ros2_control name="jackal_hardware" type="system">
     <hardware>
       <xacro:if value="$(arg is_sim)">
@@ -285,16 +275,9 @@
     </joint>
   </ros2_control>
 
-  <!-- Bring in simulation data for Gazebo. -->
   <xacro:if value="$(arg is_sim)">
     <xacro:include filename="$(find jackal_description)/urdf/jackal.gazebo" />
   </xacro:if>
 
-  <!-- Optional standard accessories, including their simulation data. The rendering
-       of these into the final description is controlled by optenv variables, which
-       default each one to off.-->
-  <xacro:include filename="$(find jackal_description)/urdf/accessories.urdf.xacro" />
-
-  <!-- Optional custom includes. -->
-  <xacro:include filename="$(optenv JACKAL_URDF_EXTRAS empty.urdf)" />
+  <xacro:include filename="$(find jackal_description)/urdf/miss_sensors.urdf.xacro" />
 </robot>
