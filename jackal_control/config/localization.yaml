@@ -14,14 +14,14 @@ ekf_node:
     odom0: jackal_velocity_controller/odom
     # odom0: odom
     odom0_config: [true, true, true,     # X,Y,Z,
-                  false, false, false,     # roll,pitch,yaw,
+                  false, false, true,     # roll,pitch,yaw,
                   true, true, false,      # X`,Y`,Z`
-                  false, false, true,     # roll`,pitch`,yaw`,
+                  false, false, false,     # roll`,pitch`,yaw`,
                   false, false, false]    # X``,Y``,Z``
     odom0_differential: false
     odom0_queue_size: 5
 
-    imu0: imu/data
+    imu0: imu/data_raw
     imu0_config: [false, false, false,    # X,Y,Z,
                   false, false, false,    # roll,pitch,yaw,
                   false, false, false,    # X`,Y`,Z`
