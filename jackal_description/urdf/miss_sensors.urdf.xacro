@@ -2,9 +2,9 @@
 
   <xacro:include filename="$(find jackal_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
   <xacro:include filename="$(find jackal_description)/urdf/accessories/_d435.urdf.xacro" />
-  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro" />
+  <xacro:include filename="$(find jackal_description)/urdf/accessories/_vlp16.urdf.xacro" />
   
-  <xacro:hokuyo_ust10_mount topic="/front/scan" prefix="front" parent_link="front_mount">
+  <xacro:hokuyo_ust10_mount topic="/rear/scan" prefix="rear" parent_link="rear_mount">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:hokuyo_ust10_mount>
 
@@ -13,6 +13,6 @@
     </xacro:sensor_d435>
 
   <xacro:VLP-16 parent="mid_mount">
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0 0 0.76" rpy="0 0 0" />
   </xacro:VLP-16>
 </robot>
