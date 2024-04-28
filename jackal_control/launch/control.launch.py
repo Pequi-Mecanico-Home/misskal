@@ -52,6 +52,7 @@ def generate_launch_description():
     localization_group_action = GroupAction([
         # Extended Kalman Filter
         Node(
+            namespace='misskal',
             package='robot_localization',
             executable='ekf_node',
             name='ekf_node',
@@ -61,6 +62,7 @@ def generate_launch_description():
 
         # Madgwick Filter
         Node(
+            namespace='misskal',
             package='imu_filter_madgwick',
             executable='imu_filter_madgwick_node',
             name='imu_filter_node',
@@ -73,6 +75,7 @@ def generate_launch_description():
     control_group_action = GroupAction([
         # ROS2 Control
         Node(
+            namespace='misskal',
             package='controller_manager',
             executable='ros2_control_node',
             parameters=[config_jackal_velocity_controller, {'use_sim_time': True if is_sim else False}],
@@ -81,12 +84,13 @@ def generate_launch_description():
                 'stderr': 'screen',
             },
             remappings=[
-            ("~/robot_description", "/robot_description")],
+            ("~/robot_description", "robot_description")],
             condition=UnlessCondition(is_sim)
         ),
 
         # Joint State Broadcaster
         Node(
+            namespace='misskal',
             package='controller_manager',
             executable='spawner',
             arguments=['joint_state_broadcaster', '--controller-manager-timeout', '300'],
@@ -95,6 +99,7 @@ def generate_launch_description():
 
         # Velocity Controller
         Node(
+            namespace='misskal',
             package='controller_manager',
             executable='spawner',
             arguments=['jackal_velocity_controller', '--controller-manager-timeout', '300'],

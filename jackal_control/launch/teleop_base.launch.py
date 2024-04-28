@@ -14,6 +14,7 @@ def generate_launch_description():
     )
 
     node_interactive_marker_twist_server = Node(
+        namespace='misskal',
         package='interactive_marker_twist_server',
         executable='marker_server',
         name='twist_server_node',
@@ -23,10 +24,11 @@ def generate_launch_description():
     )
 
     node_twist_mux = Node(
+        namespace='misskal',
         package='twist_mux',
         executable='twist_mux',
         output='screen',
-        remappings={('/cmd_vel_out', '/jackal_velocity_controller/cmd_vel_unstamped')},
+        remappings={('cmd_vel_out', 'jackal_velocity_controller/cmd_vel_unstamped')},
         parameters=[filepath_config_twist_mux]
     )
 

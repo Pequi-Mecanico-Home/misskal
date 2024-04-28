@@ -2,14 +2,17 @@
 <robot>
 
   <gazebo>
-    <plugin name="$(arg prefix)gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+    <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
       <parameters>$(arg gazebo_controllers)</parameters>
+      <ros>
+          <namespace>$(arg prefix)</namespace>
+      </ros>
     </plugin>
   </gazebo>
 
-  <gazebo reference="$(arg prefix)imu_link">
-    <sensor name="$(arg prefix)imu_sensor" type="imu">
-    <plugin filename="libgazebo_ros_imu_sensor.so" name="$(arg prefix)imu_plugin">
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+    <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
         <ros>
           <namespace>$(arg prefix)</namespace>
           <remapping>~/out:=imu/data_raw</remapping>
