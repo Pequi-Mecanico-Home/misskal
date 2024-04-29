@@ -243,6 +243,13 @@
     <origin xyz="${mount_spacing} 0 0" />
   </joint>
 
+<!-- $(arg robot_name)/$(arg base_link_frame) -->
+  <joint name="vx300s_joint" type="fixed">
+    <parent link="front_mount" />
+    <child link="misskal/vx300s_base" />
+    <origin xyz="${mount_spacing} 0 0.6" rpy="0 -${PI/2} ${PI}"/>
+  </joint>
+
   <ros2_control name="jackal_hardware" type="system">
     <hardware>
       <xacro:if value="$(arg is_sim)">

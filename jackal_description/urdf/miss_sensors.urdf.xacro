@@ -3,6 +3,7 @@
   <xacro:include filename="$(find jackal_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
   <xacro:include filename="$(find jackal_description)/urdf/accessories/_d435.urdf.xacro" />
   <xacro:include filename="$(find jackal_description)/urdf/accessories/_vlp16.urdf.xacro" />
+  <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/vx300s.urdf.xacro" />
   
   <xacro:hokuyo_ust10_mount topic="/rear/scan" prefix="rear" parent_link="rear_mount">
     <origin xyz="0 0 0" rpy="0 0 0" />

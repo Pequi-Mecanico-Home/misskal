@@ -104,7 +104,34 @@ def generate_launch_description():
             executable='spawner',
             arguments=['jackal_velocity_controller', '--controller-manager-timeout', '300'],
             output='screen',
-        )
+        ),
+
+        # Joint State Broadcaster for vx300s
+        Node(
+            namespace='misskal',
+            package='controller_manager',
+            executable='spawner',
+            arguments=['joint_state_broadcaster_vx300s', '--controller-manager-timeout', '300'],
+            output='screen',
+        ),
+
+        # Arm Controller (vx300s)
+        Node(
+            namespace='misskal',
+            package='controller_manager',
+            executable='spawner',
+            arguments=['arm_controller', '--controller-manager-timeout', '300'],
+            output='screen',
+        ),
+
+        # Gripper Controller (vx300s)
+        Node(
+            namespace='misskal',
+            package='controller_manager',
+            executable='spawner',
+            arguments=['gripper_controller', '--controller-manager-timeout', '300'],
+            output='screen',
+        ),
     ])
 
     ld = LaunchDescription()
