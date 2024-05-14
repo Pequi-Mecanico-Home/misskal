@@ -2,7 +2,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.conditions import UnlessCondition
 from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
 
@@ -50,9 +50,11 @@ def generate_launch_description():
 
     # Localization
     localization_group_action = GroupAction([
+        PushRosNamespace(
+                    namespace='misskal'),
+
         # Extended Kalman Filter
         Node(
-            namespace='misskal',
             package='robot_localization',
             executable='ekf_node',
             name='ekf_node',
@@ -62,7 +64,6 @@ def generate_launch_description():
 
         # Madgwick Filter
         Node(
-            namespace='misskal',
             package='imu_filter_madgwick',
             executable='imu_filter_madgwick_node',
             name='imu_filter_node',

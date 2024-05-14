@@ -20,7 +20,7 @@ from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 
-from launch_ros.actions import Node, PushRosNamespace
+from launch_ros.actions import Node, PushRosNamespace, SetRemap
 from launch_ros.substitutions import FindPackageShare
 
 from nav2_common.launch import RewrittenYaml
@@ -41,8 +41,8 @@ def generate_launch_description():
     use_composition = LaunchConfiguration('use_composition')
     localization = LaunchConfiguration('localization')
 
-    remappings = [('/tf', 'tf'),
-                  ('/tf_static', 'tf_static')]
+    remappings = [('/tf', '/tf'),
+                  ('/tf_static', '/tf_static')]
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
@@ -145,6 +145,10 @@ def generate_launch_description():
                               'use_composition': use_composition,
                               'container_name': 'nav2_container'}.items()),
 
+        SetRemap(src='/tf',dst='/tf'),
+        SetRemap(src='/tf_static',dst='/tf_static'),
+
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 PathJoinSubstitution(
@@ -156,6 +160,7 @@ def generate_launch_description():
                               'autostart': autostart,
                               'params_file': params_file,
                               'use_composition': use_composition,
+                              
                               'container_name': 'nav2_container'}.items()),
     ])
 
