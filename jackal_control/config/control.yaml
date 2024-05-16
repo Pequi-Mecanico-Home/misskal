@@ -10,6 +10,7 @@ misskal/controller_manager:
 
 misskal/jackal_velocity_controller:
   ros__parameters:
+    tf_frame_prefix_enable: false
     left_wheel_names: [ "front_left_wheel_joint", "rear_left_wheel_joint" ]
     right_wheel_names: [ "front_right_wheel_joint", "rear_right_wheel_joint" ]
 
